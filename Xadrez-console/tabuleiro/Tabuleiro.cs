@@ -22,10 +22,34 @@ namespace tabuleiro
         {
             return _pecas[linha, coluna];
         }
+        public Peca peca(Posicao pos)
+        {
+            return _pecas[pos._linha, pos._coluna];
+        }
+
+        public bool existePeca(Posicao pos)
+        {
+            validarPosicao(pos);
+            return peca(pos) != null;
+        }
+
         public void colocarPeca(Peca p, Posicao pos)
         {
+            if (existePeca(pos)) { throw new TabuleiroException("Já existe uma peça nessa posição!!"); }
             _pecas[pos._linha, pos._coluna] = p;
             p._posicao = pos;
+        }
+        public bool posicaoValida(Posicao pos)
+        {
+            if(pos._linha < 0 || pos._linha >= _linhas || pos._coluna < 0 || pos._coluna >= _colunas) { return false; }
+            else { return true; }
+        }
+        public void validarPosicao(Posicao pos)
+        {
+            if (!posicaoValida(pos))
+            {
+                throw new TabuleiroException("Posição inválida!!");
+            }
         }
     }
 }
